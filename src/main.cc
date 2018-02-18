@@ -26,6 +26,23 @@ void init()
         exit(0);
     }
 
+    SDL_GL_SetAttribute(
+        SDL_GL_CONTEXT_PROFILE_MASK,
+        SDL_GL_CONTEXT_PROFILE_CORE);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+
+    SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+
+    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 16);
+    SDL_GL_SetSwapInterval(1);
+
     window = SDL_CreateWindow(
         "Title",
         SDL_WINDOWPOS_CENTERED,
@@ -33,15 +50,6 @@ void init()
         1280,
         720,
         SDL_WINDOW_OPENGL);
-
-    SDL_GL_SetAttribute(
-        SDL_GL_CONTEXT_PROFILE_MASK,
-        SDL_GL_CONTEXT_PROFILE_CORE);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-    SDL_GL_SetSwapInterval(1);
 
     context = SDL_GL_CreateContext(window);
 
@@ -65,8 +73,14 @@ void create()
 
 void render()
 {
+    long now = SDL_GetTicks();
+    long then = SDL_GetTicks();
+    float delta;
+
     while (running)
     {
+        now = SDL_GetTicks();
+        delta = (float)(now - then) / 1000.0f;
         while (SDL_PollEvent(&e))
         {
             if (e.type == SDL_QUIT)
@@ -75,6 +89,7 @@ void render()
             }
         }
 
+        mesh.position.x += 0.1 * delta;
         mesh.update();
         camera.update();
 
@@ -94,6 +109,8 @@ void render()
         glUseProgram(0);
 
         SDL_GL_SwapWindow(window);
+
+        then = now;
     }
 }
 

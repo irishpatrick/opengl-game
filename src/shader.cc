@@ -26,8 +26,8 @@ GLuint Shader::getUniformLocation(const std::string& name)
 
 void Shader::findUniform(const std::string& name)
 {
-    GLuint loc = glGetUniformLocation(program, name.c_str());
-    if (loc != GL_FALSE)
+    GLint loc = glGetUniformLocation(program, name.c_str());
+    if (loc != -1)
     {
         uniforms.insert(std::pair<std::string, GLuint>(name,loc));
     }
