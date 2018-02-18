@@ -8,7 +8,7 @@ sdl2 = dependency('sdl2')
 glew = dependency('glew')
 #gl = dependency('gl')
 #assimp = dependency('assimp')
-glm = dependency('glm')
+#glm = dependency('glm')
 
 specific_args = []
 
@@ -23,6 +23,6 @@ executable(
     'a',
     sources,
     include_directories: [inc],
-    dependencies: [sdl2, glew, glm],
+    dependencies: [sdl2, glew],
     link_args: specific_args
 )
