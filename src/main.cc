@@ -89,7 +89,6 @@ void render()
             }
         }
 
-        mesh.position.x += 0.1 * delta;
         mesh.update();
         camera.update();
 
