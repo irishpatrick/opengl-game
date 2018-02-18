@@ -15,6 +15,28 @@ GLuint Shader::getProgram()
     return program;
 }
 
+GLuint Shader::getUniformLocation(const std::string& name)
+{
+    if (uniforms.find(name) != uniforms.end())
+    {
+        return uniforms[name];
+    }
+    return GL_FALSE;
+}
+
+void Shader::findUniform(const std::string& name)
+{
+    GLuint loc = glGetUniformLocation(program, name.c_str());
+    if (loc != GL_FALSE)
+    {
+        uniforms.insert(std::pair<std::string, GLuint>(name,loc));
+    }
+    else
+    {
+        printf("could not find uniform");
+    }
+}
+
 void Shader::load(const char* vertex_fn, const char* fragment_fn)
 {
     GLuint vsid = glCreateShader(GL_VERTEX_SHADER);

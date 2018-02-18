@@ -4,8 +4,9 @@
 #include <GL/glew.h>
 #include <SDL.h>
 #include <glm/glm.hpp>
+#include "model.h"
 
-class Mesh
+class Mesh: public Model
 {
 public:
     Mesh();

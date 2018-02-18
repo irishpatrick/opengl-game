@@ -8,7 +8,6 @@
 #include <glm/gtx/quaternion.hpp>
 
 
-
 class Model
 {
 public:
@@ -22,7 +21,7 @@ public:
     glm::vec3 rotation;
     glm::vec3 scale;
 
-private:
+protected:
     glm::mat4 modelmatrix;
 };
 

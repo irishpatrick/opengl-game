@@ -7,6 +7,7 @@
 
 #include "mesh.h"
 #include "shader.h"
+#include "camera.h"
 
 SDL_Window* window;
 SDL_GLContext context;
@@ -15,12 +16,7 @@ bool running = true;
 
 Mesh mesh;
 Shader test;
-
-void create()
-{
-    test.load("../assets/vertex.glsl", "../assets/fragment.glsl");
-    mesh.init();
-}
+Camera camera;
 
 void init()
 {
@@ -34,12 +30,13 @@ void init()
         "Title",
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
-        1024,
-        768,
-        SDL_WINDOW_OPENGL
-    );
+        1280,
+        720,
+        SDL_WINDOW_OPENGL);
 
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+    SDL_GL_SetAttribute(
+        SDL_GL_CONTEXT_PROFILE_MASK,
+        SDL_GL_CONTEXT_PROFILE_CORE);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
@@ -51,8 +48,19 @@ void init()
     glewExperimental = true;
     glewInit();
 
-    glViewport(0,0,1024,768);
-    glClearColor(0.4f,0.4f,0.4f,1.0f);
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
+    //glViewport(0, 0, 1280, 720);
+    glClearColor(0.529f, 0.808f, 0.922f, 1.0f);
+}
+
+void create()
+{
+    camera.position = glm::vec3(4, 4, 3);
+    camera.init(90.0f, 16.0f/9.0f, 0.1f, 1000.0f);
+    test.load("../assets/vertex.glsl", "../assets/fragment.glsl");
+    test.findUniform("MVP");
+    mesh.init();
 }
 
 void render()
@@ -67,12 +75,23 @@ void render()
             }
         }
 
+        mesh.update();
+        camera.update();
+
+        glm::mat4 mvp = camera.getProjectionMatrix() *
+            camera.getViewMatrix() *
+            mesh.getModelMatrix();
+
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glUseProgram(test.getProgram());
+        glUniformMatrix4fv(
+            test.getUniformLocation("MVP"),
+            1,
+            GL_FALSE,
+            &mvp[0][0]);
         mesh.draw();
         glUseProgram(0);
-
 
         SDL_GL_SwapWindow(window);
     }

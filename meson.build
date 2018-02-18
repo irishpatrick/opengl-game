@@ -2,7 +2,7 @@ project('opengl-game', 'cpp')
 
 inc = include_directories('include')
 
-add_global_arguments('-Wall -g --std=c++11', language: 'cpp')
+add_global_arguments(['-Wall', '-g', '--std=c++11'], language: 'cpp')
 
 sdl2 = dependency('sdl2')
 glew = dependency('glew')
