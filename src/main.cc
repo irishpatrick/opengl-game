@@ -38,9 +38,9 @@ void init()
     SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-
+    SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
-    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 16);
+    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 8);
     SDL_GL_SetSwapInterval(1);
 
     window = SDL_CreateWindow(
@@ -51,10 +51,32 @@ void init()
         720,
         SDL_WINDOW_OPENGL);
 
+    if (window == NULL)
+    {
+        printf("window error! %s\n", SDL_GetError());
+        exit(1);
+    }
+
     context = SDL_GL_CreateContext(window);
 
+    if (context == NULL)
+    {
+        printf("context error! %s\n", SDL_GetError());
+        exit(1);
+    }
+
     glewExperimental = true;
-    glewInit();
+    GLenum error = glewInit();
+    if (error != GLEW_OK)
+    {
+        printf("glew error! %s\n", glewGetErrorString(error));
+        exit(1);
+    }
+    if (!GLEW_VERSION_2_1)
+    {
+        printf("bad glew version!\n");
+        exit(1);
+    }
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);

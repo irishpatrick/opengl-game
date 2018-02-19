@@ -1,6 +1,7 @@
 #ifndef MODEL_H
 #define MODEL_H
 
+#include <vector>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
@@ -23,6 +24,8 @@ public:
 
 protected:
     glm::mat4 modelmatrix;
+    Model* parent;
+    std::vector<Model*> children;
 };
 
 #endif /* MODEL_H */
