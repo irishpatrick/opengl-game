@@ -3,11 +3,13 @@
 #include "gl3_prototypes.h"
 #include <GL/glew.h>
 #include <SDL.h>
+#include <SDL_image.h>
 #include <glm/glm.hpp>
 
 #include "mesh.h"
 #include "shader.h"
 #include "camera.h"
+#include "textures.h"
 
 SDL_Window* window;
 SDL_GLContext context;
@@ -23,6 +25,12 @@ void init()
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
         printf("failed to init SDL\n");
+        exit(0);
+    }
+
+    if (IMG_Init(IMG_INIT_PNG) < 0)
+    {
+        printf("failed to init img!\n");
         exit(0);
     }
 
@@ -86,9 +94,12 @@ void init()
 
 void create()
 {
+    Textures::load("crate", "../assets/textures/create_diffuse.png");
     camera.position = glm::vec3(4, 4, 3);
     camera.init(90.0f, 16.0f/9.0f, 0.1f, 1000.0f);
-    test.load("../assets/vertex.glsl", "../assets/fragment.glsl");
+    test.load(
+        "../assets/shaders/vertex.glsl",
+        "../assets/shaders/fragment.glsl");
     test.findUniform("MVP");
     mesh.init();
 }

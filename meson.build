@@ -5,6 +5,7 @@ inc = include_directories('include')
 add_global_arguments(['-Wall', '-g', '--std=c++11'], language: 'cpp')
 
 sdl2 = dependency('sdl2')
+sdl2_image = dependency('SDL2_image')
 glew = dependency('glew')
 #gl = dependency('gl')
 assimp = dependency('assimp')
@@ -23,6 +24,6 @@ executable(
     'a',
     sources,
     include_directories: [inc],
-    dependencies: [sdl2, glew, assimp],
+    dependencies: [sdl2, glew, assimp, sdl2_image],
     link_args: specific_args
 )
