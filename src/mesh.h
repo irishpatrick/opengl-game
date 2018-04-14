@@ -2,7 +2,7 @@
 #define MESH_H
 
 #include <GL/glew.h>
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <glm/glm.hpp>
 #include "model.h"
 

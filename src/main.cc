@@ -2,8 +2,8 @@
 #include <cstdlib>
 #include "gl3_prototypes.h"
 #include <GL/glew.h>
-#include <SDL.h>
-#include <SDL_image.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <glm/glm.hpp>
 
 #include "mesh.h"
