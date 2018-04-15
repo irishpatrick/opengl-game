@@ -1,22 +1,21 @@
 #include <cstdio>
 #include <cstdlib>
-#include "gl3_prototypes.h"
+#include "gl3_prototypes.hpp"
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <glm/glm.hpp>
 
-#include "mesh.h"
-#include "shader.h"
-#include "camera.h"
-#include "textures.h"
+#include "mesh.hpp"
+#include "shader.hpp"
+#include "textures.hpp"
+#include "camera.hpp"
 
 SDL_Window* window;
 SDL_GLContext context;
 SDL_Event e;
 bool running = true;
 
-Mesh mesh;
 Shader test;
 Camera camera;
 
@@ -94,14 +93,13 @@ void init()
 
 void create()
 {
-    Textures::load("crate", "../assets/textures/create_diffuse.png");
+    Textures::load("crate", "../assets/textures/crate_diffuse.png");
     camera.position = glm::vec3(4, 4, 3);
     camera.init(90.0f, 16.0f/9.0f, 0.1f, 1000.0f);
     test.load(
         "../assets/shaders/vertex.glsl",
         "../assets/shaders/fragment.glsl");
     test.findUniform("MVP");
-    mesh.init();
 }
 
 void render()
@@ -122,23 +120,21 @@ void render()
             }
         }
 
-        mesh.update();
         camera.update();
 
-        glm::mat4 mvp = camera.getProjectionMatrix() *
+        /*glm::mat4 mvp = camera.getProjectionMatrix() *
             camera.getViewMatrix() *
-            mesh.getModelMatrix();
+            mesh.getModelMatrix();*/
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        glUseProgram(test.getProgram());
+        /*glUseProgram(test.getProgram());
         glUniformMatrix4fv(
             test.getUniformLocation("MVP"),
             1,
             GL_FALSE,
             &mvp[0][0]);
-        mesh.draw();
-        glUseProgram(0);
+        glUseProgram(0);*/
 
         SDL_GL_SwapWindow(window);
 

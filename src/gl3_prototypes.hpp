@@ -1,0 +1,3 @@
+#ifndef GL3_PROTOTYPES
+#define GL3_PROTOTYPES 1
+#endif /* GL3GL3_PROTOTYPES */
