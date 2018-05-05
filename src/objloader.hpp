@@ -1,6 +1,7 @@
 #ifndef OBJLOADER_HPP
 #define OBJLOADER_HPP
 
+#include <vector>
 #include <string>
 #include <fstream>
 #include <sstream>
